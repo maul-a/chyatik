@@ -1,16 +1,13 @@
-import app from './app'
-import {Server} from 'http'
 import socketIO from 'socket.io'
+import {Server} from 'http'
+import app from './app'
+import {onConnection} from './services/io'
 
 const port = process.env['PORT'] || 3000
 const http = Server(app);
 const io = socketIO(http);
 
-io.on('connection', (socket) => {
-  const clientIP = socket.handshake.headers.host
-  console.log('ya zakonnektilsa', clientIP)
-})
-
+io.on('connection', onConnection)
 http.listen(port, () => {
   console.log(`chat application listening on port :${port}`)
 })

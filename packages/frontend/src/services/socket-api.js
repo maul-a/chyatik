@@ -1,6 +1,10 @@
 import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:8000');
+const socket = openSocket('http://localhost:3000');
 
-function newMessage(cb) {
+export function newSocketMessage(cb) {
   socket.on('new_message_receive', message => cb(message))
+}
+
+export function sendSocketMessage(message) {
+  socket.emit('new_message_send', message)
 }

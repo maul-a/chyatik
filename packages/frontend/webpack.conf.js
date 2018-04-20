@@ -3,6 +3,9 @@ const webpack = require('webpack')
 
 
 const plugins = [
+  new webpack.ProvidePlugin({
+    "React": "react",
+  }),
   new webpack.optimize.UglifyJsPlugin({
     compress: {
       screw_ie8: true,
