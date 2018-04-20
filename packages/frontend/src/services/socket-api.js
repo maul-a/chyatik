@@ -8,6 +8,10 @@ export function newSocketUser(cb) {
   socket.on('new_user_receive', message => cb(message))
 }
 
+export function disconnectSocketUser(cb) {
+  socket.on('disconnect_user_receive', message => cb(message))
+}
+
 export function sendSocketMessage(message) {
   socket.emit('new_message_send', message)
 }

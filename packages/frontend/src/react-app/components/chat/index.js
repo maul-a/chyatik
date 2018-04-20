@@ -24,7 +24,7 @@ class Chat extends Component {
       this.setState({
         messages: [
           ...messages, {
-          id: lastMessageId + 1,
+          id: (lastMessageId + 1) ? lastMessageId + 1 : 0,
           text: message.text,
           ipAddress: this.state.ipAddress,
         }]
@@ -50,11 +50,11 @@ class Chat extends Component {
       }
     })
     const { messages, ipAddress } = this.state
-    const lastMessageId = messages[messages.length - 1].id
+    const lastMessageId = (messages[messages.length - 1].id) || 0
     this.setState({
       messages: [
         ...messages, {
-          id: lastMessageId + 1,
+          id: (lastMessageId + 1) ? lastMessageId + 1 : 0,
           text: message,
           ipAddress,
         }

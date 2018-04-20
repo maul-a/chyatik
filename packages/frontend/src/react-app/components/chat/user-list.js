@@ -1,5 +1,10 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import fetch from 'isomorphic-fetch'
+import {
+  newSocketUser,
+  disconnectSocketUser
+} from '../../../services/socket-api'
 
 class UserList extends Component {
   constructor(args) {
@@ -7,7 +12,17 @@ class UserList extends Component {
     this.state = {
       users: []
     }
-}
+    newSocketUser((user) => this.setState({
+      users: [
+        ...this.state.users,
+        user
+      ]
+    }))
+    disconnectSocketUser((userId) => this.setState({
+      users: this.state.users.filter(user => user.id !== userId)
+    }))
+    
+  }
   async componentDidMount() {
     const resp = await fetch('/users')
     const data = await resp.json()
@@ -31,4 +46,11 @@ class UserList extends Component {
   }
 }
 
+UserList.propTypes = {
+  users: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    ipAddress: PropTypes.string.isRequired,
+    active: PropTypes.bool,
+  }))
+}
 export default UserList
