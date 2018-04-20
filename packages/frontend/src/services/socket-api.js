@@ -8,3 +8,7 @@ export function newSocketMessage(cb) {
 export function sendSocketMessage(message) {
   socket.emit('new_message_send', message)
 }
+
+export function getUserOwnId(cb) {
+  socket.on('user_own_id', id => cb(id))
+}

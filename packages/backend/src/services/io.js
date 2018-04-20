@@ -6,6 +6,7 @@ export const onConnection = async (socket) => {
   socket.on('new_message_send', (message) => {
     console.log(message)
   })
+  socket.emit('user_own_id', user.id)
   socket.on('disconnect', () => {
     User.destroy({
       where: {

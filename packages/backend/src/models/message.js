@@ -7,7 +7,7 @@ const Message = sequelize.define('message', {
     type: Sequelize.STRING,
   },
 })
-Message.belongsTo(User, { onDelete: 'CASCADE' });
+Message.belongsTo(User);
 Message.sync({force: false})
 
 export default Message
