@@ -16,19 +16,31 @@ class Chat extends Component {
       messages: [],
       message: '',
       userId: null,
+      ipAddress: null,
     }
-    newSocketMessage((message) => this.setState({message}))
-    getUserOwnId((userId) => this.setState({userId}))
+    newSocketMessage((message) => {
+      const { messages } = this.state;
+      const lastMessageId = messages[messages.length - 1].id
+      this.setState({
+        messages: [
+          ...messages, {
+          id: lastMessageId + 1,
+          text: message.text,
+          ipAddress: this.state.ipAddress,
+        }]
+      })
+    })
+    getUserOwnId(({ userId, ipAddress }) => this.setState({ userId, ipAddress }))
   }
   async componentDidMount() {
     const resp = await fetch('/messages')
     const data = await resp.json()
     this.setState({ messages: data['messages'] || [] })
   }
-  onEditMessage = (message) => this.setState({message})
+  onEditMessage = (message) => this.setState({ message })
   sendMessage = () => {
     const { message, userId } = this.state
-    this.setState({message: ''})
+    this.setState({ message: '' })
     const body = { text: message, userId }
     fetch('/messages', {
       method: 'POST',
@@ -37,6 +49,17 @@ class Chat extends Component {
         'content-type': 'application/json',
       }
     })
+    const { messages, ipAddress } = this.state
+    const lastMessageId = messages[messages.length - 1].id
+    this.setState({
+      messages: [
+        ...messages, {
+          id: lastMessageId + 1,
+          text: message,
+          ipAddress,
+        }
+
+    ]})
     sendSocketMessage(message)
   }
   render() {

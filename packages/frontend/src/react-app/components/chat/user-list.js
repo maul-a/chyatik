@@ -19,9 +19,12 @@ class UserList extends Component {
       <div>
         <strong>Online users:</strong>
         <ul>
-          {users && users.map(user => (
-            <li key={user.id}>{user.ipAddress}</li>
-          ))}
+          {users && users.map(user => {
+            if (user.active) return (
+              <li key={user.id}>{user.ipAddress}</li>
+            )
+            if (!user.active) return null
+          })}
         </ul>
       </div>
     )

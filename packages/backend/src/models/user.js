@@ -5,6 +5,10 @@ const User = sequelize.define('user', {
   ipAddress: {
     type: Sequelize.STRING,
   },
+  active: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: true,
+  }
 })
 User.sync({force: false})
 

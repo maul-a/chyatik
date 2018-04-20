@@ -1,19 +1,16 @@
 import User from '../models/user'
-
 export const onConnection = async (socket) => {
   const ipAddress = socket.handshake.address
-  const user = await User.create({ipAddress})
+  const user = await User.create({ ipAddress })
   socket.on('new_message_send', (message) => {
-    console.log(message)
+    socket.broadcast.emit('new_message_receive', {ipAddress, text: message})
   })
-  socket.emit('user_own_id', user.id)
+  socket.emit('user_own_id', {
+    userId: user.id,
+    ipAddress,
+  })
   socket.on('disconnect', () => {
-    User.destroy({
-      where: {
-        id: user.id
-      }
-    })
+    user.updateAttributes({ active: false })
   })
-  console.log('ya zakonnektilsa', ipAddress)
 }
 

@@ -4,6 +4,7 @@ async function list(req, res) {
   const users = await User.findAll().map(user => ({
     id: user.id,
     ipAddress: user.ipAddress,
+    active: user.active,
   }))
   return res.status(200).json({ users })
 }
