@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 const ChatView = ({messages}) => (
   <div>
-    {console.log(messages)}
     {messages.map(message => (
       <div key={message.id}>
         {`from: ${message.ipAddress} message: ${message.text}`}

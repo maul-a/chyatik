@@ -21,7 +21,7 @@ class UserList extends Component {
     disconnectSocketUser((userId) => this.setState({
       users: this.state.users.filter(user => user.id !== userId)
     }))
-    
+
   }
   async componentDidMount() {
     const resp = await fetch('/users')
