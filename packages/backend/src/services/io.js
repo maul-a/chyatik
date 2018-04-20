@@ -1,8 +1,18 @@
-export const onConnection = (socket) => {
-  const clientIP = socket.handshake.address
+import User from '../models/user'
+
+export const onConnection = async (socket) => {
+  const ipAddress = socket.handshake.address
+  const user = await User.create({ipAddress})
   socket.on('new_message_send', (message) => {
     console.log(message)
   })
-  console.log('ya zakonnektilsa', clientIP)
+  socket.on('disconnect', () => {
+    User.destroy({
+      where: {
+        id: user.id
+      }
+    })
+  })
+  console.log('ya zakonnektilsa', ipAddress)
 }
 
